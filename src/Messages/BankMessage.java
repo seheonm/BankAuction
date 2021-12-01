@@ -19,13 +19,6 @@ public class BankMessage<Bid> extends Message implements Serializable{
 
 
     private Bid bid;
-    public BankMessage(BankActions action, Agent agent,
-                       AuctionHouse auctionHouse,String reply){
-        this.action= action;
-        this.agent = agent;
-        this.house = auctionHouse;
-        this.reply = reply;
-    }
 
     //bid
     public BankMessage(BankActions action, Bid bid, String reply){
@@ -78,7 +71,5 @@ public class BankMessage<Bid> extends Message implements Serializable{
     public Bid getBid() {
         return bid;
     }
-
-
 }
 
