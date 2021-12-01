@@ -65,15 +65,15 @@ public class Client implements  Runnable{
         int auctionHouseIndex = validateAgentAuctionHouseChoice(agent,sc);
         AuctionHouse houseToJoin = findHouse(agent.getAvailableHouses(),auctionHouseIndex);
         System.out.println("Joining Auction House server number " + auctionHouseIndex );
-//        agent.getAvailableHouses().removeIf(e -> e.getAuctionID() == auctionHouseIndex);
-//        System.out.println(houseToJoin.getIp());
-//        System.out.println(houseToJoin.getPort());
-//        new AHUser(agent,auctionHouseIndex,s,houseToJoin.getIp(),houseToJoin.getPort(),out,in);
+        agent.getAvailableHouses().removeIf(e -> e.getAuctionID() == auctionHouseIndex);
+        System.out.println(houseToJoin.getIp());
+        System.out.println(houseToJoin.getPort());
+        new AHUser(agent,auctionHouseIndex,s,houseToJoin.getIp(),houseToJoin.getPort(),out,in);
     }
 
     private AuctionHouse findHouse(List<AuctionHouse> houses, int index){
         for(AuctionHouse house: houses){
-//            if(house.getAuctionID() == index) return house;
+            if(house.getAuctionID() == index) return house;
         }
         System.err.println("House not found");
         return null;
@@ -170,7 +170,7 @@ public class Client implements  Runnable{
         }catch (Exception e){e.printStackTrace();}
     }
 
-    /**\
+    /**
      * Validates agents choice in choosing an available auction house
      * @param agent
      * @param sc
@@ -178,11 +178,11 @@ public class Client implements  Runnable{
     private int validateAgentAuctionHouseChoice(Agent agent,Scanner sc) {
         int index;
         ArrayList<Integer> indices = new ArrayList<>();
-//        agent.getAvailableHouses().forEach(e -> indices.add(e.getAuctionID()));
+        agent.getAvailableHouses().forEach(e -> indices.add(e.getAuctionID()));
         do {
             System.out.println("Please join an Auction house by typing in their ID below");
             System.out.print("IDs: ");
-//            agent.getAvailableHouses().forEach(e -> System.out.print(e.getAuctionID() + " "));
+            agent.getAvailableHouses().forEach(e -> System.out.print(e.getAuctionID() + " "));
             System.out.println();
             while (!sc.hasNextInt()) {
                 System.out.println("Enter a valid Auction House number");
@@ -199,10 +199,11 @@ public class Client implements  Runnable{
     }
 
 
-
-
-
-
+    /**
+     * Main method gets bank's IP address
+     * @param args argument
+     * @throws Exception
+     */
     public static void main(String[] args)throws Exception {
         Scanner scan = new Scanner(System.in);
         System.out.println("PLease enter the IP address of the bank.");

@@ -17,10 +17,6 @@ public class Bid  implements Serializable {
         return agentID;
     }
 
-//    public int getItemID() {
-//        return itemID;
-//    }
-
     public double getAmount() {
         return amount;
     }

@@ -50,12 +50,4 @@ public class Agent implements Serializable {
     public List<AuctionHouse> getAvailableHouses() {
         return availableHouses;
     }
-
-
-
-
-
-
-
-
 }
