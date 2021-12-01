@@ -1,11 +1,11 @@
 package AH;
 
 import Agent.Agent;
-import Messages.AgentActions;
-import Messages.AgentMessage;
-import Messages.BankMessage;
-
+import Messages.*;
+import Agent.Bid;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import Messages.*;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.NumberFormat;
@@ -34,15 +34,49 @@ public class AgentClient implements Runnable {
         this.bankIn = bankIn;
         this.bankOut = bankOut;
         this.agent = agent;
+        setItems();
     }
 
 
     @Override
     public void run() {
+        while (true) {
+            try {
+//                    System.out.println("Waiting to read");
+                Object m = auctionIn.readUnshared();
+                if (m instanceof GetItemMessage) {
+                    GetItemMessage bM = (GetItemMessage) m;
+                    items = bM.getItems();
+                }
+                if (m instanceof BidMessage) {
+                    BidMessage BM = (BidMessage) m;
+                    if (BM.isSuccessful()) {
+                        System.out.println("Bid was successful");
+                        AgentMessage checkFunds = new AgentMessage(AgentActions.AGENT_CHECK_FUNDS, agent, "");
+                        bankOut.writeUnshared(checkFunds);
+                        System.out.println(((BankMessage) bankIn.readUnshared()).getReply());
+                    } else {
+                        System.out.println("Bid was not successful");
+                        AgentMessage checkFunds = new AgentMessage(AgentActions.AGENT_CHECK_FUNDS, agent, "");
+                        bankOut.writeUnshared(checkFunds);
+                        System.out.println(((BankMessage) bankIn.readUnshared()).getReply());
+                    }
+                } else if (m instanceof OutBidMessage) {
+                    OutBidMessage OB = (OutBidMessage) m;
+                    System.out.println("Out bid on " + OB.getOutBid().getName());
+                } else if (m instanceof ItemWonMessage) {
+                    ItemWonMessage IW = (ItemWonMessage) m;
+                    System.out.println("Won Item " + IW.getItem().getName() + " for " + "$" + IW.getBid());
+                    items.removeIf(e-> e.getItemID() ==IW.getItem().getItemID());
+                }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private int validateInput(Scanner sc, int size,
+    private int validateInput(Scanner sc,int size,
                               String prompt, String reply) {
         int index;
         ArrayList<Integer> indices = new ArrayList<>();
@@ -58,6 +92,14 @@ public class AgentClient implements Runnable {
         } while (!indices.contains(index));
 
         return index-1;
+    }
+    private void setItems(){
+        try {
+            GetItemMessage GI = new GetItemMessage();
+            auctionOut.reset();
+            auctionOut.writeUnshared(GI);
+        }catch(Exception e){e.printStackTrace();}
+
     }
 
     public void bid(){
@@ -97,6 +139,10 @@ public class AgentClient implements Runnable {
             System.out.println();
             System.out.println("Enter minimum bid amount: ");
             double x = amounts.get(bidChoice);
+            BidMessage b = new BidMessage(x, items.get(item), agent.getAccountNumber());
+            auctionOut.writeUnshared(b);
+            System.out.println("Sending that message");
+            setItems();
         }catch (Exception e) {e.printStackTrace();}
     }
 

@@ -13,6 +13,11 @@ public class Item {
     private boolean won;
 
 
+    /**
+     * Item to be created from qualifying information.
+     * @param name name of item.
+     * @param description description of item.
+     */
     public Item(String name, double price, String description, int itemID, int houseId){
         this.name = name;
         this.price = price;
@@ -45,36 +50,63 @@ public class Item {
         this.itemCount = 0;
     }
 
+    /**
+     * gets description
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * gets name
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
-
+    /**
+     * getMinBid gets minBid
+     * @return minBid
+     */
     public double getMinBid(){return minBid;}
 
+    /**
+     * getCurrBid gets currBid
+     * @return currBid
+     */
     public double getCurrBid(){return currBid;}
 
+    /**
+     * setMinBid sets the minBid
+     * @param minBid
+     */
     public void setMinBid(double minBid) {
         this.minBid = minBid;
     }
 
-
+    /**
+     * setCurrBid sets the currBid
+     * @param currBid
+     */
     public void setCurrBid(double currBid){
         this.currBid = currBid;
     }
 
+    /**
+     * Gets the ItemID
+     * @return Item ID
+     */
     public int getItemID() {
         return itemID;
     }
 
-
+    /**
+     * getPrice gets the price.
+     * @return price
+     */
     public double getPrice() {
         return price;
     }
-
-
 }

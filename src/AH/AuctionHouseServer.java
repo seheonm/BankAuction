@@ -1,18 +1,21 @@
 package AH;
 
+import Messages.AuctionHouseMessage;
 import Messages.BankMessage;
+//import sun.security.x509.IPAddressName;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Scanner;
 
-public class AuctionHouseServer {
+import static Messages.AuctionHouseActions.AUCTION_REGISTER;
 
+/**
+ * AuctionHouseServer creates the Auction House Server
+ */
+public class AuctionHouseServer {
     private ServerSocket ahs_sock;
     private AuctionHouse AH;
     private ObjectOutputStream bankOut;
@@ -21,6 +24,9 @@ public class AuctionHouseServer {
     private String IP;
 
 
+    /**
+     * AuctionHouseServer constructor create the Auction House Server
+     */
     public AuctionHouseServer(int auctionHousePort, String ip){
         IP = ip;
 
@@ -35,7 +41,15 @@ public class AuctionHouseServer {
         }
     }
 
-    private Socket safeConnect(String ip, int port)throws UnknownHostException,IOException{
+    /**
+     * Safely handles socket connections, tries again on failure
+     * @param ip
+     * @param port
+     * @return
+     * @throws UnknownHostException
+     * @throws IOException
+     */
+    private Socket safeConnect(String ip,int port)throws UnknownHostException,IOException{
         Socket s = null;
         boolean connected = false;
         while(!connected) {
@@ -72,6 +86,9 @@ public class AuctionHouseServer {
         return port;
     }
 
+    /**
+     * connectionThread creates a connection thread
+     */
     private void connectionThread(){
         //Connect and register with the bank to setup a new account
         // and be added to the list of auction houses
@@ -81,6 +98,9 @@ public class AuctionHouseServer {
             bankOut= new ObjectOutputStream(bankSocket.getOutputStream());
             bankIn = new ObjectInputStream(bankSocket.getInputStream());
 
+            AuctionHouseMessage registerAH = new AuctionHouseMessage(AUCTION_REGISTER,
+                    AH,"");
+            bankOut.writeUnshared(registerAH);
             try{
                 BankMessage message = (BankMessage)bankIn.readUnshared();
                 System.out.println(message.getReply());
@@ -116,6 +136,10 @@ public class AuctionHouseServer {
 
     }
 
+    /**
+     * main starts the program
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("Please type in the bank's IP address:");
         Scanner scan = new Scanner(System.in);

@@ -1,5 +1,5 @@
 package AH;
-
+import Messages.BidMessage;
 import java.io.*;
 import java.util.*;
 
@@ -19,6 +19,11 @@ public class AuctionHouse implements  Serializable{
     //List of states of each agent item
 
 
+
+
+    /**
+     * Constructor initializing an Auction House.
+     */
     public AuctionHouse(String ip, int port, String file){
         bidMap = new HashMap<>();
         accountHistory = new HashMap<>();
@@ -29,7 +34,9 @@ public class AuctionHouse implements  Serializable{
         this.itemsToSell = new ArrayList<>();
         this.currItemId = 0;
         loadItems(file);
-
+        /**
+         * generating 3 items to test if it works.
+         */
         generateItem();
         generateItem();
         generateItem();
@@ -85,10 +92,36 @@ public class AuctionHouse implements  Serializable{
         return auctionID;
     }
 
-    public boolean bid(){
-        return true;
-    }
+    public boolean bid(AuctionClient client, BidMessage bid){
+        for(Item i: itemsToSell){
+            if(i.getItemID() == bid.getItem().getItemID()){
+                if(Double.compare( bid.getBid() , i.getMinBid())>= 0){
+                    if (accountHistory.containsKey(bid.getAcctNum())) {
+                        if(bid.getItem().getItemID() == i.getItemID()){
+                            System.out.println("Bid already made");
+                            return false;
+                        }
 
+                    }
+                    if (bidMap.containsKey(i)) {
+                        bidMap.get(i).outBid(i);
+                    }
+                    bidMap.put(i, client);
+                    i.setCurrBid(bid.getBid());
+                    i.setMinBid(i.getCurrBid() + BID_OFFSET);
+                    i.resetTimer();
+                    System.out.println("Successful bid on " + i.getName() + " for " + bid.getBid());
+                    System.out.println(i.getCurrBid());
+                    return true;
+                }
+            }
+        }
+        System.out.println("Unsuccessful bid on " + bid.getItem().getName());
+        return false;
+    }
+    /**
+     * loadItems reads in the items from items.txt file.
+     */
     private void loadItems(String file){
         try {
             BufferedReader bReader = new BufferedReader(new FileReader(new File(file)));
@@ -111,16 +144,25 @@ public class AuctionHouse implements  Serializable{
         items.removeIf(e-> e.getItemID()== currItemId);
     }
 
+    /**
+     * @return If the auction house is alive or not;
+     */
     public boolean isAlive(){
         return alive;
     }
 
+    /**
+     * Picking random items from the items to sell list.
+     */
     public void generateItem(){
         Random ran = new Random();
         Item i = items.get(ran.nextInt(items.size()));
         itemsToSell.add(new Item(i.getName(), i.getMinBid(), i.getDescription(), currItemId++, auctionID));
     }
 
+    /**
+     * printItems prints the items.
+     */
     public void printItems(){
         for(Item i: itemsToSell){
             System.out.println(i.getName() + ", " + i.getPrice() + ", " + i.getDescription());
