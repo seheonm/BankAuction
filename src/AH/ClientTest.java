@@ -20,7 +20,7 @@ public class ClientTest {
         Scanner s = new Scanner(System.in);
         ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
         ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
-        System.out.println("Connection Successful");
+        System.out.println("Connection Successful boiiiiii");
         while(run){
             System.out.println("Enter input:");
             String message = s.nextLine();

@@ -2,7 +2,9 @@ package Messages;
 
 import AH.Item;
 
-public class ItemWonMessage {
+import java.io.Serializable;
+
+public class ItemWonMessage implements Serializable {
     private double bid;
     private Item item;
 

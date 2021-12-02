@@ -73,7 +73,6 @@ public class AuctionHouseServer {
     private static int validateSocket(Scanner sc,
                                       String prompt, String error) {
         int port;
-
         do {
             System.out.println(prompt);
             while (!sc.hasNextInt()) {
@@ -100,12 +99,14 @@ public class AuctionHouseServer {
 
             AuctionHouseMessage registerAH = new AuctionHouseMessage(AUCTION_REGISTER,
                     AH,"");
+//            bankOut.writeObject(registerAH);
             bankOut.writeUnshared(registerAH);
             try{
                 BankMessage message = (BankMessage)bankIn.readUnshared();
                 System.out.println(message.getReply());
                 AH.setAuctionID(message.getAccountNumber());
             }catch (ClassNotFoundException e){e.printStackTrace();}
+            catch (Exception e){e.printStackTrace();}
 
             //flush output
             bankOut.flush();
@@ -141,16 +142,19 @@ public class AuctionHouseServer {
      * @param args
      */
     public static void main(String[] args) {
-        System.out.println("Please type in the bank's IP address:");
+//        System.out.println("Please type in the bank's IP address:");
         Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter your IP");
-        String ip = scan.nextLine();
-        scan.next();
+//        System.out.println("Please enter your IP");
+//        String ip = scan.nextLine();
+//        scan.next();
+        System.out.println("Enter the Bank's IP:");
         String IPprompt = scan.nextLine();
-        String prompt = "Please enter a valid port number (Between 5000 and 6000)";
-        String error = "Invalid port number, please enter a valid port number between 5000 and 6000";
+//        String prompt = "Please enter a valid port number (Between 5000 and 6000)";
+//        String error = "Invalid port number, please enter a valid port number between 5000 and 6000";
 
-        int validated = validateSocket(scan, prompt, error);
-        new AuctionHouseServer(validated, IPprompt);
+//        int validated = validateSocket(scan, prompt, error);
+        System.out.println("Enter port to run on:");
+        int port = scan.nextInt();
+        new AuctionHouseServer(port, IPprompt);
     }
 }

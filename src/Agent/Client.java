@@ -137,7 +137,7 @@ public class Client implements  Runnable{
         String confirm;
         while(true){
             System.out.println("There are currently " + agent.getAvailableHouses().size()
-                    +" Auction Houses available\nDo you want you wait for more Auction Houses to join? (yes/no)");
+                    +" Auction Houses available\nDo you want to wait for more Auction Houses to join? (yes/no)");
             confirm = sc.nextLine();
             if(confirm.equals("no"))break;
             refreshConnection();

@@ -2,9 +2,10 @@ package Messages;
 
 import AH.Item;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GetItemMessage {
+public class GetItemMessage implements Serializable {
     private List<Item> items;
     public GetItemMessage(){}
     public GetItemMessage(List<Item> items){

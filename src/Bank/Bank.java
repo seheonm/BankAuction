@@ -17,7 +17,7 @@ public class Bank {
     private List<AuctionHouse> auctionHouses;
     private HashMap<Integer, Account> accounts;
     private HashMap<Integer, Double> blockedMoney;
-    private final double BALANCE = 100000000;
+    private final double BALANCE = 9999999;
     private final int MAX_SIZE = 10;
     private int portNumber;
     private int bankPort;

@@ -103,7 +103,7 @@ public class AgentClient implements Runnable {
     }
 
     public void bid(){
-        System.out.println("here boi");
+        System.out.println("Here Boiiiiiiiiiiii");
         try {
             //print the stuff
             System.out.print("Name  ");

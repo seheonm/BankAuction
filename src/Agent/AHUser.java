@@ -68,14 +68,14 @@ public class AHUser {
             while (run) {
 
                 System.out.println("Would you like to make another bid or would yo" +
-                        "u like to switch to another auction house? (Bid/Switch");
+                        "u like to switch to another auction house? (Bid/Switch)");
                 String choice = sc.nextLine();
                 System.out.println("Choice is: " + choice);
-                if(choice.equals("Bid")){
-                    System.out.println("I got here");
+                if(choice.equals("Bid") || choice.equals("bid")){
+                    System.out.println("Fuuuuuuck");
                     //client.requestItems();
                     client.bid();
-                }else if(choice.equals("Switch")){
+                }else if(choice.equals("Switch") || choice.equals("switch")){
                     try {
                         //Read in the message
                         agentAuctionChoice(sc);
