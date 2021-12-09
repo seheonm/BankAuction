@@ -1,6 +1,9 @@
-#Auction House 
-##Authors: Ruby Ta, Marina Seheon, Joseph Barela
+Bank Auction, CS351L Project 4 by Marina Seheon, Ruby Ta, and Joseph Barela.
 
-Start this program before either agents or auction houses. (The bank is a server and the agents and
-auction houses are its clients.)
+Joseph worked on the Auction House portions.
+Ruby worked on the Agent portions.
+Marina worked on the Bank portions.
+We all met frequently to help each other with code and to run and test.
+
+Functionality:
 
