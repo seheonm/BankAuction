@@ -1,8 +1,11 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package AH;
 
 import Messages.AuctionHouseMessage;
 import Messages.BankMessage;
-//import sun.security.x509.IPAddressName;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -20,8 +23,8 @@ public class AuctionHouseServer {
     private AuctionHouse AH;
     private ObjectOutputStream bankOut;
     private ObjectInputStream bankIn;
-    private int port = 55555;
-    private String IP;
+    private final int port = 55555;
+    private final String IP;
 
 
     /**
@@ -33,7 +36,7 @@ public class AuctionHouseServer {
         try {
             System.out.println("creating Auction House server socket.");
             ahs_sock = new ServerSocket(auctionHousePort);
-            AH = new AuctionHouse(IP, auctionHousePort, "resources/items.txt");
+            AH = new AuctionHouse(IP, auctionHousePort,"resources/items.txt");
 
             connectionThread();
         } catch (IOException e) {
@@ -43,14 +46,12 @@ public class AuctionHouseServer {
 
     /**
      * Safely handles socket connections, tries again on failure
-     * @param ip
-     * @param port
-     * @return
-     * @throws UnknownHostException
-     * @throws IOException
+     * @param ip ip number
+     * @param port port number
+     * @return socket
      */
-    private Socket safeConnect(String ip,int port)throws UnknownHostException,IOException{
-        Socket s = null;
+    private Socket safeConnect(String ip,int port)throws IOException{
+        Socket s;
         boolean connected = false;
         while(!connected) {
             try{
@@ -97,8 +98,8 @@ public class AuctionHouseServer {
             bankOut= new ObjectOutputStream(bankSocket.getOutputStream());
             bankIn = new ObjectInputStream(bankSocket.getInputStream());
 
-            AuctionHouseMessage registerAH = new AuctionHouseMessage(AUCTION_REGISTER,
-                    AH,"");
+            AuctionHouseMessage registerAH = new
+                    AuctionHouseMessage(AUCTION_REGISTER, AH,"");
 //            bankOut.writeObject(registerAH);
             bankOut.writeUnshared(registerAH);
             try{
@@ -119,29 +120,31 @@ public class AuctionHouseServer {
             try {
                 while(true){
                     System.out.println("waiting for agent connection");
-                    Socket ah_sock = ahs_sock.accept(); //Connection from agent or auction house
-                    ObjectOutputStream agentOut= new ObjectOutputStream(ah_sock.getOutputStream());
-                    ObjectInputStream agentIn= new ObjectInputStream(ah_sock.getInputStream());
+                    //Connection from agent or auction house
+                    Socket ah_sock = ahs_sock.accept();
+                    ObjectOutputStream agentOut= new
+                            ObjectOutputStream(ah_sock.getOutputStream());
+                    ObjectInputStream agentIn= new
+                            ObjectInputStream(ah_sock.getInputStream());
                     System.out.println("Agent has connected to this server");
-                    AuctionClient aClient = new AuctionClient(ah_sock, agentOut, agentIn,bankOut,bankIn,AH);
+                    AuctionClient aClient = new AuctionClient(ah_sock,
+                            agentOut, agentIn,bankOut,bankIn,AH);
                     Thread thread = new Thread(aClient);
                     System.out.println("starting thread.");
                     thread.start();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         });
         listener.start();
-
     }
 
     /**
      * main starts the program
-     * @param args
+     * @param args argument
      */
-    public static void main(String[] args) {
+    public static void main (String[] args) {
 //        System.out.println("Please type in the bank's IP address:");
         Scanner scan = new Scanner(System.in);
 //        System.out.println("Please enter your IP");
@@ -149,8 +152,10 @@ public class AuctionHouseServer {
 //        scan.next();
         System.out.println("Enter the Bank's IP:");
         String IPprompt = scan.nextLine();
-//        String prompt = "Please enter a valid port number (Between 5000 and 6000)";
-//        String error = "Invalid port number, please enter a valid port number between 5000 and 6000";
+//        String prompt = "Please enter a valid port number " +
+//                "(Between 5000 and 6000)";
+//        String error = "Invalid port number, please enter a " +
+//                "valid port number between 5000 and 6000";
 
 //        int validated = validateSocket(scan, prompt, error);
         System.out.println("Enter port to run on:");

@@ -1,12 +1,13 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package Messages;
 
-import Agent.Agent;
-
-import java.awt.*;
 import java.io.Serializable;
 
 public abstract  class Message implements Serializable {
-    private Enum action;
+    private final Enum action;
     public Message(Enum action){
         this.action = action;
     }

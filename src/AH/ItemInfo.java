@@ -1,10 +1,14 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package AH;
 
 public class ItemInfo {
 
-    private String name;
+    private final String name;
     private double price;
-    private int itemID;
+    private final int itemID;
 
     /**
      * Constructor for an Item info

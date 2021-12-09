@@ -1,13 +1,17 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package AH;
 
 import java.io.Serializable;
 
 public class Item implements Serializable {
 
-    private String name;
-    private double price;
-    private String description;
-    private int itemID;
+    private final String name;
+    private final double price;
+    private final String description;
+    private final int itemID;
     private double minBid;
     private double currBid;
     private int houseId;
@@ -20,7 +24,8 @@ public class Item implements Serializable {
      * @param name name of item.
      * @param description description of item.
      */
-    public Item(String name, double price, String description, int itemID, int houseId){
+    public Item(String name, double price,
+                String description, int itemID, int houseId){
         this.name = name;
         this.price = price;
         this.description = description;
@@ -82,7 +87,7 @@ public class Item implements Serializable {
 
     /**
      * setMinBid sets the minBid
-     * @param minBid
+     * @param minBid minBid
      */
     public void setMinBid(double minBid) {
         this.minBid = minBid;
@@ -90,7 +95,7 @@ public class Item implements Serializable {
 
     /**
      * setCurrBid sets the currBid
-     * @param currBid
+     * @param currBid current Bid
      */
     public void setCurrBid(double currBid){
         this.currBid = currBid;

@@ -1,11 +1,12 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package AH;
 
 import Agent.Agent;
 import Messages.*;
-import Agent.Bid;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import Messages.*;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.text.NumberFormat;
@@ -14,13 +15,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AgentClient implements Runnable {
-    private Socket socket;
-    private ObjectInputStream auctionIn;
-    private ObjectOutputStream auctionOut;
-    private ObjectInputStream bankIn;
-    private ObjectOutputStream bankOut;
+    private final Socket socket;
+    private final ObjectInputStream auctionIn;
+    private final ObjectOutputStream auctionOut;
+    private final ObjectInputStream bankIn;
+    private final ObjectOutputStream bankOut;
     private List<Item> items;
-    private Agent agent;
+    private final Agent agent;
+
+
 
     public AgentClient(Agent agent,
                        Socket socket,
@@ -42,32 +45,31 @@ public class AgentClient implements Runnable {
     public void run() {
         while (true) {
             try {
-//                    System.out.println("Waiting to read");
                 Object m = auctionIn.readUnshared();
-                if (m instanceof GetItemMessage) {
-                    GetItemMessage bM = (GetItemMessage) m;
+                if (m instanceof GetItemMessage bM) {
                     items = bM.getItems();
                 }
-                if (m instanceof BidMessage) {
-                    BidMessage BM = (BidMessage) m;
+                if (m instanceof BidMessage BM) {
                     if (BM.isSuccessful()) {
                         System.out.println("Bid was successful");
-                        AgentMessage checkFunds = new AgentMessage(AgentActions.AGENT_CHECK_FUNDS, agent, "");
+                        AgentMessage checkFunds = new AgentMessage
+                                (AgentActions.AGENT_CHECK_FUNDS, agent, "");
                         bankOut.writeUnshared(checkFunds);
-                        System.out.println(((BankMessage) bankIn.readUnshared()).getReply());
                     } else {
                         System.out.println("Bid was not successful");
-                        AgentMessage checkFunds = new AgentMessage(AgentActions.AGENT_CHECK_FUNDS, agent, "");
+                        AgentMessage checkFunds = new AgentMessage(
+                                AgentActions.AGENT_CHECK_FUNDS, agent, "");
                         bankOut.writeUnshared(checkFunds);
-                        System.out.println(((BankMessage) bankIn.readUnshared()).getReply());
                     }
-                } else if (m instanceof OutBidMessage) {
-                    OutBidMessage OB = (OutBidMessage) m;
+                    System.out.println(((BankMessage)
+                            bankIn.readUnshared()).getReply());
+                } else if (m instanceof OutBidMessage OB) {
                     System.out.println("Out bid on " + OB.getOutBid().getName());
-                } else if (m instanceof ItemWonMessage) {
-                    ItemWonMessage IW = (ItemWonMessage) m;
-                    System.out.println("Won Item " + IW.getItem().getName() + " for " + "$" + IW.getBid());
-                    items.removeIf(e-> e.getItemID() ==IW.getItem().getItemID());
+                } else if (m instanceof ItemWonMessage IW) {
+                    System.out.println("Won Item " + IW.getItem().getName() +
+                            " for " + "$" + IW.getBid());
+                    items.removeIf(e-> e.getItemID() ==
+                            IW.getItem().getItemID());
                 }
 
             } catch (Exception e) {
@@ -76,12 +78,19 @@ public class AgentClient implements Runnable {
         }
     }
 
+    /**
+     * Validate input
+     * @param sc scanner
+     * @param size size
+     * @param prompt prompt
+     * @param reply reply message
+     * @return index
+     */
     private int validateInput(Scanner sc,int size,
                               String prompt, String reply) {
         int index;
         ArrayList<Integer> indices = new ArrayList<>();
         for (int i = 1; i < size+1; i++) {indices.add(i); }
-
         do {
             System.out.println(prompt);
             while (!sc.hasNextInt()) {
@@ -93,6 +102,11 @@ public class AgentClient implements Runnable {
 
         return index-1;
     }
+
+
+    /**
+     * Set items
+     */
     private void setItems(){
         try {
             GetItemMessage GI = new GetItemMessage();
@@ -102,6 +116,10 @@ public class AgentClient implements Runnable {
 
     }
 
+
+    /**
+     * Bid
+     */
     public void bid(){
         System.out.println("Here Boiiiiiiiiiiii");
         try {
@@ -113,7 +131,8 @@ public class AgentClient implements Runnable {
             items.forEach(e-> System.out.print("$" + e.getMinBid()+"    "));
             System.out.println();
 
-            for (int i = 1; i < items.size()+1; i++) System.out.print("           "+ i + "    ");
+            for (int i = 1; i < items.size()+1; i++)
+                System.out.print("           "+ i + "    ");
             System.out.println();
 
             Scanner s = new Scanner(System.in);
@@ -126,7 +145,8 @@ public class AgentClient implements Runnable {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             for(int i=0; i < choices; i++){
                 amounts.add(minAmount + multiplier);
-                System.out.print(formatter.format(minAmount+multiplier)+"      ");
+                System.out.print(formatter.format(
+                        minAmount+multiplier)+"      ");
                 multiplier+=1000;
             }
             System.out.println();
@@ -134,12 +154,14 @@ public class AgentClient implements Runnable {
                 System.out.print("       " + i+"        ");
             }
             System.out.println();
-            int bidChoice = validateInput(s,amounts.size(),"Enter bid amount" +
+            int bidChoice = validateInput(s,amounts.size(),
+                    "Enter bid amount" +
                     " out, "," Enter valid  bid choice");
             System.out.println();
             System.out.println("Enter minimum bid amount: ");
             double x = amounts.get(bidChoice);
-            BidMessage b = new BidMessage(x, items.get(item), agent.getAccountNumber());
+            BidMessage b = new BidMessage(x, items.get(item),
+                    agent.getAccountNumber());
             auctionOut.writeUnshared(b);
             System.out.println("Sending that message");
             setItems();

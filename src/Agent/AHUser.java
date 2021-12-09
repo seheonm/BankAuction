@@ -1,8 +1,11 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package Agent;
 
 import AH.AgentClient;
 import AH.AuctionHouse;
-import AH.Item;
 import Messages.*;
 
 import java.io.IOException;
@@ -10,7 +13,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static Messages.AgentActions.AGENT_UPDATE_AUCTION;
@@ -26,12 +28,15 @@ public class AHUser {
     ObjectInputStream bankIn;
     Agent agent;
     Socket bankSocket;
-    List<Item> items;
     int auctionHouseID;
     int PORT = 5555;
     String IP;
 
 
+    /** Refresh the connection
+     * @param socket socket
+     * @throws IOException exception
+     */
     public void refreshConnection(Socket socket) throws IOException {
         bankOut.close();
         bankIn.close();
@@ -45,7 +50,8 @@ public class AHUser {
      * AHUser is a User server for Auction House
      */
     public AHUser(Agent agent, int auctionHouseId,
-                  Socket bankSocket, String ip, int port, ObjectOutputStream bankOut,
+                  Socket bankSocket, String ip, int port,
+                  ObjectOutputStream bankOut,
                   ObjectInputStream bankIn) {
         this.bankIn = bankIn;
         this.bankOut = bankOut;
@@ -53,26 +59,27 @@ public class AHUser {
         this.agent = agent;
         this.auctionHouseID = auctionHouseId;
         System.out.println("Connecting to Auction House Server");
-        Socket sock = null;
+        Socket sock;
         try {
             sock = new Socket(ip, port);
-            boolean run = true;
             auctionOut = new ObjectOutputStream(sock.getOutputStream());
             auctionIn = new ObjectInputStream(sock.getInputStream());
             System.out.println("Connection Successful");
-            AgentClient client = new AgentClient(agent,sock,auctionOut,auctionIn,bankOut,bankIn);
+            AgentClient client = new AgentClient(agent,sock,
+                    auctionOut,auctionIn,bankOut,bankIn);
             new Thread(client).start();
 //            listener();
 
             Scanner sc = new Scanner(System.in);
-            while (run) {
+            while (true) {
 
-                System.out.println("Would you like to make another bid or would yo" +
-                        "u like to switch to another auction house? (Bid/Switch)");
+                System.out.println("Would you like to make " +
+                        "another bid or would yo" +
+                        "u like to switch to another " +
+                        "auction house? (Bid/Switch)");
                 String choice = sc.nextLine();
                 System.out.println("Choice is: " + choice);
                 if(choice.equals("Bid") || choice.equals("bid")){
-                    System.out.println("Fuuuuuuck");
                     //client.requestItems();
                     client.bid();
                 }else if(choice.equals("Switch") || choice.equals("switch")){
@@ -80,25 +87,31 @@ public class AHUser {
                         //Read in the message
                         agentAuctionChoice(sc);
                         //print the auctions
-                        agent.getAvailableHouses().forEach(e-> System.out.print(e.getAuctionID() + "   "));
+                        agent.getAvailableHouses().forEach(e->
+                                System.out.print(e.getAuctionID() + "   "));
                         //Get the choice
-                        int auctionHouseChoice = validateAgentAuctionHouseChoice(agent,sc);
-                        AuctionHouse houseChoice  = agent.getAvailableHouses().get(auctionHouseChoice);
+                        int auctionHouseChoice =
+                                validateAgentAuctionHouseChoice(agent,sc);
+                        AuctionHouse houseChoice =
+                                agent.getAvailableHouses().
+                                        get(auctionHouseChoice);
                         //create the socket
                         auctionHouseID = houseChoice.getAuctionID();
                         int choicePort = houseChoice.getPort();
                         String  host = houseChoice.getIp();
                         Socket socket = new Socket(host,choicePort);
-                        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                        ObjectOutputStream out = new
+                                ObjectOutputStream(socket.getOutputStream());
+                        ObjectInputStream in = new ObjectInputStream
+                                (socket.getInputStream());
                         //Clone the agent
                         Agent clone = new Agent();
                         clone.setAvailableHouses(agent.getAvailableHouses());
                         clone.setAccountNumber(agent.getAccountNumber());
 
-                        AgentClient agentClient = new AgentClient(clone,sock,out,in,bankOut,bankIn);
+                        AgentClient agentClient = new AgentClient(clone,
+                                sock,out,in,bankOut,bankIn);
                         new Thread(agentClient).start();
-
 
                     }catch(Exception e){
                         e.printStackTrace();
@@ -111,22 +124,28 @@ public class AHUser {
     }
 
 
-
-    private int validateAgentAuctionHouseChoice(Agent agent,Scanner sc) {
+    /** Validate agent auction house choice
+     * @param agent agent
+     * @param sc scanner
+     * @return auction house number
+     */
+    private int validateAgentAuctionHouseChoice(Agent agent,Scanner sc){
         int index;
-        ArrayList<Integer> indicies = new ArrayList<>();
-        agent.getAvailableHouses().forEach(e -> indicies.add(e.getAuctionID()));
+        ArrayList<Integer> indices = new ArrayList<>();
+        agent.getAvailableHouses().forEach(e->indices.add(e.getAuctionID()));
         do {
-            System.out.println("Please join an Auction house by typing in their ID below");
+            System.out.println("Please join an Auction house " +
+                    "by typing in their ID below");
             System.out.print("IDs: ");
-            agent.getAvailableHouses().forEach(e -> System.out.print(e.getAuctionID() + " "));
+            agent.getAvailableHouses().forEach(e ->
+                    System.out.print(e.getAuctionID() + " "));
             System.out.println();
             while (!sc.hasNextInt()) {
                 System.out.println("Enter a valid Auction House number");
                 sc.next();
             }
             index = sc.nextInt();
-        } while (!indicies.contains(index) );
+        } while (!indices.contains(index) );
 
         for (int i = 0; i < agent.getAvailableHouses().size(); i++) {
             if(agent.getAvailableHouses().get(i).getAuctionID() == index){
@@ -140,35 +159,45 @@ public class AHUser {
 
 
     /**
-     * Validates whether the agents should await for more
-     * Auction houses
-     * @param sc
+     * Validates whether the agents should await for more Auction houses
+     * @param sc scanner
      */
     private void agentAuctionChoice(Scanner sc) {
         String confirm;
         while (true) {
             if (agent.getAvailableHouses().size() == 0) {
-                System.out.println("There are currently no Auction Houses available" +
+                System.out.println("There are currently no " +
+                        "Auction Houses available" +
                         ", currently updating list of Auction Houses ");
             } else {
-                System.out.println("There are currently " + agent.getAvailableHouses().size()
-                        + " Auction Houses available\nDo you want you wait for more Auction Houses to join? (yes/no)");
+                System.out.println("There are currently " +
+                        agent.getAvailableHouses().size()
+                        + " Auction Houses available\nDo you want you wait " +
+                        "for more Auction Houses to join? (yes/no)");
                 confirm = sc.nextLine();
                 if (confirm.equals("no")) break;
             }
             try {
                 Thread.sleep(1000);
-                AgentMessage updateHouses = new AgentMessage(AGENT_UPDATE_AUCTION, agent, "");
+                AgentMessage updateHouses = new AgentMessage
+                        (AGENT_UPDATE_AUCTION, agent, "");
                 bankOut.writeUnshared(updateHouses);
                 BankMessage update = (BankMessage) bankIn.readUnshared();
                 agent.setAvailableHouses(update.getHouses());
-            } catch (IOException | InterruptedException | ClassNotFoundException sie) {
+            } catch (IOException |
+                    InterruptedException |
+                    ClassNotFoundException sie) {
             }
         }
     }
 
 
-
+    /**
+     * Find auction house
+     * @param houses auction houses
+     * @param index index
+     * @return house
+     */
     private AuctionHouse findHouse(ArrayList<AuctionHouse> houses, int index){
         for(AuctionHouse house: houses){
             if(house.getAuctionID() == index) return house;

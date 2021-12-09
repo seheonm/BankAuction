@@ -1,10 +1,10 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package Bank;
 
 import AH.AuctionHouse;
-import AH.AuctionHouseServer;
-
-import java.lang.reflect.Array;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,31 +14,31 @@ import java.util.List;
  * during bids. Contains the helper methods used for the bank processes.
  */
 public class Bank {
-    private List<AuctionHouse> auctionHouses;
-    private HashMap<Integer, Account> accounts;
-    private HashMap<Integer, Double> blockedMoney;
+    private final List<AuctionHouse> auctionHouses;
+    private final HashMap<Integer, Account> accounts;
+    private final HashMap<Integer, Double> blockedMoney;
     private final double BALANCE = 9999999;
     private final int MAX_SIZE = 10;
-    private int portNumber;
-    private int bankPort;
-    private int currID = 0;
+    private final int portNumber;
+    private final int bankPort;
+    private final int currID = 0;
 
     /**
      * Instantiates a new Bank.
-     *
      * @param portNumber the port number
      */
     public Bank(int portNumber) {
         this.portNumber = portNumber;
         this.bankPort = portNumber;
-        this.accounts = new HashMap<Integer, Account>();
+        this.accounts = new HashMap<>();
         this.auctionHouses = new ArrayList<>();
         this.blockedMoney = new HashMap<>();
     }
 
+
+
     /**
      * Register ah account.
-     *
      * @param house the house
      * @return the account
      */
@@ -54,6 +54,7 @@ public class Bank {
         return acct;
     }
 
+
     /**
      * Register agent account.
      *
@@ -68,6 +69,8 @@ public class Bank {
         return acct;
     }
 
+
+
     /**
      * Contains auction house boolean.
      *
@@ -81,9 +84,10 @@ public class Bank {
         return false;
     }
 
+
+
     /**
      * Remove auction house.
-     *
      * @param id the id
      */
     public void removeAuctionHouse(int id){
@@ -95,9 +99,10 @@ public class Bank {
         }
     }
 
+
+
     /**
      * Gets account.
-     *
      * @param id the id
      * @return the account
      */
@@ -105,18 +110,19 @@ public class Bank {
         return this.accounts.get(id);
     }
 
+
     /**
      * Gets auction houses.
-     *
      * @return the auction houses
      */
     public List<AuctionHouse> getAuctionHouses() {
         return auctionHouses;
     }
 
+
     /**
-     * Hold action. Takes money from agent based off ID and puts it into the blockedMoney hashmap
-     *
+     * Hold action. Takes money from agent based off ID
+     * and puts it into the blockedMoney hashmap
      * @param uID the u id
      * @param amt the amt
      */
@@ -130,8 +136,10 @@ public class Bank {
         blockedMoney.put(uID, total);
     }
 
+
     /**
-     * Outbid action. Removes funds from blockedMoney Hashmap based off ID and adds it to the
+     * Outbid action. Removes funds from blockedMoney Hashmap
+     * based off ID and adds it to the
      *agent account again based off their ID
      * @param uID the u id
      */
@@ -145,7 +153,7 @@ public class Bank {
 
     /**
      * Win action. Adds funds to auction house account from respective bid
-     *
+
      * @param agentID        the agent id
      * @param auctionHouseID the auction house id
      */
@@ -157,17 +165,18 @@ public class Bank {
 
     /**
      * Gets accounts.
-     *
      * @return the accounts
      */
     public HashMap<Integer, Account> getAccounts() {
         return accounts;
     }
 
+
+
     /**
-     * Sufficient funds boolean. Returns false if bid amount is greater than the
-     *available funds in the agent bank account. Returns true if bid amount is less than
-     * available funds in the bank account.
+     * Sufficient funds boolean. Returns false if bid amount is greater
+     * than the available funds in the agent bank account. Returns true
+     * if bid amount is less than available funds in the bank account.
      * @param id     the id
      * @param amount the amount
      * @return the boolean
@@ -180,10 +189,8 @@ public class Bank {
             double holdOnMoney = blockedMoney.get(id);
             requiredAmount =   amount + holdOnMoney;
         }
-
         System.out.println("Input     +++ checking");
         System.out.println(amount + "   " + accounts.get(id).getBal());
         return Double.compare(requiredAmount,accounts.get(id).getBal()) <= 0;
     }
-
 }

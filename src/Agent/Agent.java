@@ -1,13 +1,16 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package Agent;
 
 import AH.AuctionHouse;
-import Bank.*;
-
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * Getters and setters for the account number and a list of available auction houses for the agent
+ * Getters and setters for the account number and a list
+ * of available auction houses for the agent
  */
 public class Agent implements Serializable {
 
@@ -16,7 +19,6 @@ public class Agent implements Serializable {
 
     /**
      * Sets account number.
-     *
      * @param accountNumber the account number
      */
     public void setAccountNumber(int accountNumber) {
@@ -25,7 +27,6 @@ public class Agent implements Serializable {
 
     /**
      * Gets account number.
-     *
      * @return the account number
      */
     public int getAccountNumber() {
@@ -35,7 +36,6 @@ public class Agent implements Serializable {
 
     /**
      * Sets available houses.
-     *
      * @param availableHouses the available houses
      */
     public void setAvailableHouses(List<AuctionHouse> availableHouses) {
@@ -44,7 +44,6 @@ public class Agent implements Serializable {
 
     /**
      * Gets available houses.
-     *
      * @return the available houses
      */
     public List<AuctionHouse> getAvailableHouses() {

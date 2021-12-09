@@ -1,19 +1,23 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package AH;
 import Messages.BidMessage;
 import java.io.*;
 import java.util.*;
 
 public class AuctionHouse implements  Serializable{
-    private List<Item> items;
-    private List<Item> itemsToSell;
+    private final List<Item> items;
+    private final List<Item> itemsToSell;
     private int auctionID = 0;
-    private String ip;
-    private int port;
-    private boolean alive;
+    private final String ip;
+    private final int port;
+    private final boolean alive;
     private int currItemId;
-    private Map<Item, AuctionClient> bidMap;
-    private Map<Integer, Item> accountHistory;
-    private int winTime = 10;
+    private final Map<Item, AuctionClient> bidMap;
+    private final Map<Integer, Item> accountHistory;
+    private final int winTime = 10;
     private final double BID_OFFSET = 1000;
 
     //List of states of each agent item
@@ -34,32 +38,34 @@ public class AuctionHouse implements  Serializable{
         this.itemsToSell = new ArrayList<>();
         this.currItemId = 0;
         loadItems(file);
-        /**
-         * generating 3 items to test if it works.
-         */
+
+        //generating 3 items to test if it works.
+
         generateItem();
         generateItem();
         generateItem();
         counter();
     }
 
+    /**
+     * Counter
+     */
     private void counter(){
         Thread count = new Thread(()->{
             while(true){
                 try {
                     Thread.sleep(1000);
-                    ArrayList<Item> itemListCopy =new ArrayList<>(itemsToSell);
+                    ArrayList<Item> itemListCopy=new ArrayList<>(itemsToSell);
                     for(Item i : itemListCopy){
                         i.increment();
-                        if(i.getItemCount() >= winTime && i.getCurrBid() != 0){
+                        if(i.getItemCount() >= winTime &&
+                                i.getCurrBid() != 0){
                             //Do win bid stuff
                             if(!i.isWon()){
                                 bidMap.get(i).winBid(i);
                                 i.setWon(true);
                                 System.out.println(i.getCurrBid());
                             }
-
-
                         }
                     }
 
@@ -71,27 +77,53 @@ public class AuctionHouse implements  Serializable{
         count.start();
     }
 
+    /**
+     * Get items to be sold
+     * @return Items to be sold
+     */
     public List<Item> getItems(){
         System.out.println("Got items");
         return itemsToSell;
     }
 
+    /**
+     * Get port number
+     * @return port number
+     */
     public int getPort() {
         return port;
     }
 
+    /**
+     * Get IP number
+     * @return IP address
+     */
     public String getIp() {
         return ip;
     }
 
+    /**
+     * Set auction ID
+     * @param auctionID action house ID
+     */
     public void setAuctionID(int auctionID) {
         this.auctionID = auctionID;
     }
 
+    /**
+     * Get auction ID
+     * @return auction ID
+     */
     public int getAuctionID() {
         return auctionID;
     }
 
+    /**
+     * Bid
+     * @param client client
+     * @param bid bid message
+     * @return true if bid successfully
+     */
     public boolean bid(AuctionClient client, BidMessage bid){
         for(Item i: itemsToSell){
             if(i.getItemID() == bid.getItem().getItemID()){
@@ -101,7 +133,6 @@ public class AuctionHouse implements  Serializable{
                             System.out.println("Bid already made");
                             return false;
                         }
-
                     }
                     if (bidMap.containsKey(i)) {
                         bidMap.get(i).outBid(i);
@@ -110,7 +141,8 @@ public class AuctionHouse implements  Serializable{
                     i.setCurrBid(bid.getBid());
                     i.setMinBid(i.getCurrBid() + BID_OFFSET);
                     i.resetTimer();
-                    System.out.println("Successful bid on " + i.getName() + " for " + bid.getBid());
+                    System.out.println("Successful bid on " +
+                            i.getName() + " for " + bid.getBid());
                     System.out.println(i.getCurrBid());
                     return true;
                 }
@@ -119,18 +151,22 @@ public class AuctionHouse implements  Serializable{
         System.out.println("Unsuccessful bid on " + bid.getItem().getName());
         return false;
     }
+
+
     /**
      * loadItems reads in the items from items.txt file.
+     * @param file file of items
      */
     private void loadItems(String file){
         try {
-            BufferedReader bReader = new BufferedReader(new FileReader(new File(file)));
+            BufferedReader bReader = new BufferedReader(new FileReader(file));
             String line;
 
             // Read in the items
             while ((line = bReader.readLine()) != null) {
                 String[] x = line.split(",");
-                Item item = new Item(x[0], Integer.parseInt(x[1]), x[2], 0, 0);
+                Item item = new Item(x[0],
+                        Integer.parseInt(x[1]), x[2], 0, 0);
                 items.add(item);
             }
         } catch (FileNotFoundException e) {
@@ -140,6 +176,10 @@ public class AuctionHouse implements  Serializable{
         }
     }
 
+    /**
+     * Remove items
+     * @param currItemId item id
+     */
     public void removeItems(int currItemId){
         items.removeIf(e-> e.getItemID()== currItemId);
     }
@@ -157,7 +197,8 @@ public class AuctionHouse implements  Serializable{
     public void generateItem(){
         Random ran = new Random();
         Item i = items.get(ran.nextInt(items.size()));
-        itemsToSell.add(new Item(i.getName(), i.getMinBid(), i.getDescription(), currItemId++, auctionID));
+        itemsToSell.add(new Item(i.getName(), i.getMinBid(),
+                i.getDescription(), currItemId++, auctionID));
     }
 
     /**
@@ -165,7 +206,8 @@ public class AuctionHouse implements  Serializable{
      */
     public void printItems(){
         for(Item i: itemsToSell){
-            System.out.println(i.getName() + ", " + i.getPrice() + ", " + i.getDescription());
+            System.out.println(i.getName() + ", " +
+                    i.getPrice() + ", " + i.getDescription());
         }
     }
 }

@@ -1,3 +1,7 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package Messages;
 
 import AH.Item;
@@ -11,10 +15,11 @@ public class BidMessage implements Serializable {
     private boolean successful;
 
     /**
-     * BidMessage constructor creates a bid message with the following parameters
-     * @param bid
-     * @param item
-     * @param acctNum
+     * BidMessage constructor creates a bid message
+     * with the following parameters
+     * @param bid bid
+     * @param item item
+     * @param acctNum account number
      */
     public BidMessage(double bid, Item item, int acctNum){
         this.acctNum = acctNum;
@@ -24,8 +29,8 @@ public class BidMessage implements Serializable {
 
     /**
      * BidMessage sets successful (true or false) and pass an item
-     * @param successful
-     * @param item
+     * @param successful success
+     * @param item item
      */
     public BidMessage(boolean successful, Item item){
         this.successful = successful;

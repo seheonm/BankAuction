@@ -1,19 +1,23 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
 package Bank;
 
 
 
 /**
- * Class that has the account number, balance, and name for creating an account for the bank. This account is used for
+ * Class that has the account number, balance, and name for creating
+ * an account for the bank. This account is used for
  * both the auction houses and the agents.
  */
 public  class Account{
-    private int acctNum;
+    private final int acctNum;
     private double bal;
     private String name;
 
     /**
      * Instantiates a new Account.
-     *
      * @param acctNum the acct num
      * @param balance the balance
      */
@@ -25,7 +29,6 @@ public  class Account{
 
     /**
      * Sets name.
-     *
      * @param name the name
      */
     public void setName(String name) {
@@ -35,7 +38,6 @@ public  class Account{
 
     /**
      * Gets acct num.
-     *
      * @return the acct num
      */
     public int getAcctNum() {
@@ -44,7 +46,6 @@ public  class Account{
 
     /**
      * Gets bal.
-     *
      * @return the bal
      */
     public double getBal() {
@@ -53,7 +54,6 @@ public  class Account{
 
     /**
      * Gets name.
-     *
      * @return the name
      */
     public String getName() {
@@ -62,7 +62,6 @@ public  class Account{
 
     /**
      * Deducts funds when a bid is made.
-     *
      * @param amount the amount
      */
     public void deductFunds(double amount){
@@ -72,7 +71,6 @@ public  class Account{
 
     /**
      * Adds funds to the account for an outbid or win action.
-     *
      * @param amount the amount
      */
     public void addFunds(double amount){
