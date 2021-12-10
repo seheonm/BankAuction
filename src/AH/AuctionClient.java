@@ -92,7 +92,8 @@ public class AuctionClient implements Runnable {
             try {
                 Object m = agentIn.readUnshared();
                 System.out.println("Message Received");
-                if (m instanceof BidMessage bM) {
+                if (m instanceof BidMessage) {
+                    BidMessage bM = (BidMessage)m;
                     bankNum = bM.getAcctNum();
                     boolean checkInAuction = AH.bid(this, bM);
                     //send to Agent

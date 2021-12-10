@@ -46,10 +46,12 @@ public class AgentClient implements Runnable {
         while (true) {
             try {
                 Object m = auctionIn.readUnshared();
-                if (m instanceof GetItemMessage bM) {
+                if (m instanceof GetItemMessage) {
+                    GetItemMessage bM = (GetItemMessage)m;
                     items = bM.getItems();
                 }
-                if (m instanceof BidMessage BM) {
+                if (m instanceof BidMessage) {
+                    BidMessage BM = (BidMessage)m;
                     if (BM.isSuccessful()) {
                         System.out.println("Bid was successful");
                         AgentMessage checkFunds = new AgentMessage
@@ -63,9 +65,11 @@ public class AgentClient implements Runnable {
                     }
                     System.out.println(((BankMessage)
                             bankIn.readUnshared()).getReply());
-                } else if (m instanceof OutBidMessage OB) {
+                } else if (m instanceof OutBidMessage) {
+                    OutBidMessage OB = (OutBidMessage)m;
                     System.out.println("Out bid on " + OB.getOutBid().getName());
-                } else if (m instanceof ItemWonMessage IW) {
+                } else if (m instanceof ItemWonMessage) {
+                    ItemWonMessage IW = (ItemWonMessage)m;
                     System.out.println("Won Item " + IW.getItem().getName() +
                             " for " + "$" + IW.getBid());
                     items.removeIf(e-> e.getItemID() ==

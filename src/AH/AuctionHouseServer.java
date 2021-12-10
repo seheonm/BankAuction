@@ -36,7 +36,7 @@ public class AuctionHouseServer {
         try {
             System.out.println("creating Auction House server socket.");
             ahs_sock = new ServerSocket(auctionHousePort);
-            AH = new AuctionHouse(IP, auctionHousePort,"resources/items.txt");
+            AH = new AuctionHouse(IP, auctionHousePort,"./items.txt");
 
             connectionThread();
         } catch (IOException e) {
