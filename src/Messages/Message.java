@@ -2,6 +2,9 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
+/* Messages */
+
 package Messages;
 
 import java.io.Serializable;

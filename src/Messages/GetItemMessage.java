@@ -2,6 +2,9 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
+/* Get Items Messages */
+
 package Messages;
 
 import AH.Item;

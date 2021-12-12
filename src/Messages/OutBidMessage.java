@@ -2,6 +2,9 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
+/* Out Bid Messages */
+
 package Messages;
 
 import AH.Item;
@@ -16,7 +19,7 @@ public class OutBidMessage implements Serializable {
 
     /**
      * Constructor OutBidMessage
-     * @param outBid outbid
+     * @param outBid of type Item
      */
     public OutBidMessage(Item outBid){
         this.outBid = outBid;

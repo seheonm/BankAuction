@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package Agent;
 
 import AH.AgentClient;
@@ -33,8 +34,8 @@ public class AHUser {
     String IP;
 
 
-    /** Refresh the connection
-     * @param socket socket
+    /** Refreshes the connection
+     * @param socket of type Socket
      * @throws IOException exception
      */
     public void refreshConnection(Socket socket) throws IOException {
@@ -68,7 +69,6 @@ public class AHUser {
             AgentClient client = new AgentClient(agent,sock,
                     auctionOut,auctionIn,bankOut,bankIn);
             new Thread(client).start();
-//            listener();
 
             Scanner sc = new Scanner(System.in);
             while (true) {
@@ -80,7 +80,6 @@ public class AHUser {
                 String choice = sc.nextLine();
                 System.out.println("Choice is: " + choice);
                 if(choice.equals("Bid") || choice.equals("bid")){
-                    //client.requestItems();
                     client.bid();
                 }else if(choice.equals("Switch") || choice.equals("switch")){
                     try {
@@ -125,8 +124,8 @@ public class AHUser {
 
 
     /** Validate agent auction house choice
-     * @param agent agent
-     * @param sc scanner
+     * @param agent of type Agent
+     * @param sc of type Scanner
      * @return auction house number
      */
     private int validateAgentAuctionHouseChoice(Agent agent,Scanner sc){
@@ -155,12 +154,9 @@ public class AHUser {
         return -1;
     }
 
-
-
-
     /**
-     * Validates whether the agents should await for more Auction houses
-     * @param sc scanner
+     * Validates whether the agents should await for more auction houses
+     * @param sc of type Scanner
      */
     private void agentAuctionChoice(Scanner sc) {
         String confirm;
@@ -190,27 +186,4 @@ public class AHUser {
             }
         }
     }
-
-
-    /**
-     * Find auction house
-     * @param houses auction houses
-     * @param index index
-     * @return house
-     */
-    private AuctionHouse findHouse(ArrayList<AuctionHouse> houses, int index){
-        for(AuctionHouse house: houses){
-            if(house.getAuctionID() == index) return house;
-        }
-        System.err.println("House not found");
-        return null;
-    }
-
-    /**
-     * main starts the program
-     * @param args
-     */
-//    public static void main(String[] args) {
-//        new AHTester();
-//    }
 }

@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package Bank;
 
 import Messages.*;
@@ -27,11 +28,11 @@ public class ClientHandler implements Runnable {
     /**
      * Instantiates a new Client handler.
      *
-     * @param c_sock      the c sock
-     * @param out         the out
-     * @param in          the in
-     * @param bank        the bank
-     * @param isConnected the is connected
+     * @param c_sock of type Socket
+     * @param out of type ObjectOutputStream
+     * @param in of type ObjectOutputStream
+     * @param bank of type Bank
+     * @param isConnected of type boolean
      */
     public ClientHandler(Socket c_sock, ObjectOutputStream out,
                          ObjectInputStream in,Bank bank,boolean isConnected){
@@ -41,7 +42,6 @@ public class ClientHandler implements Runnable {
         this.isConnected = isConnected;
         this.bank = bank;
     }
-
 
     @Override
     public void run() {
@@ -99,7 +99,7 @@ public class ClientHandler implements Runnable {
                     AuctionHouseMessage message = (AuctionHouseMessage) obj;
                     System.out.println(message.getMessageAction());
                     //switch statement that handles the types of
-                    // messages sent from the Auction House
+                    //messages sent from the Auction House
                     switch((AuctionHouseActions) message.getMessageAction()){
                         //Review the bid sent from the auction house,
                         // either accept or reject
@@ -167,6 +167,5 @@ public class ClientHandler implements Runnable {
             }
         }
     }
-
 }
 

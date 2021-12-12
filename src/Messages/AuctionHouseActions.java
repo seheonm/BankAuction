@@ -2,6 +2,9 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
+/* Auction House Actions */
+
 package Messages;
 
 public enum AuctionHouseActions {

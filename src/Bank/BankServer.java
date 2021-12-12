@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package Bank;
 
 import java.io.ObjectInputStream;
@@ -41,7 +42,6 @@ public class BankServer{
         } catch (Exception e) {
             isConnected = false;
         }
-
     }
 
     /**

@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package Agent;
 
 import AH.AuctionHouse;
@@ -18,6 +19,9 @@ import java.util.Scanner;
 
 import static Messages.AgentActions.*;
 
+/**
+ * Runs the client.
+ */
 public class Client implements  Runnable{
     String IP;
     final Integer PORT = 55555;
@@ -25,8 +29,6 @@ public class Client implements  Runnable{
     private ObjectInputStream in;
     private Socket s;
     private final Agent agent;
-
-
 
     public Client(String IP) throws Exception {
         this.IP = IP;
@@ -39,7 +41,6 @@ public class Client implements  Runnable{
         AgentMessage message = new AgentMessage(AGENT_REGISTER, agent, name);
         out = new ObjectOutputStream(s.getOutputStream());
         in = new ObjectInputStream(s.getInputStream());
-        //send out registration message
         out.writeUnshared(message);
         BankMessage reply =  (BankMessage) in.readUnshared();
         System.out.println(reply.getReply());
@@ -79,12 +80,11 @@ public class Client implements  Runnable{
                 houseToJoin.getPort(),out,in);
     }
 
-
     /**
      * Find if there are any house in the list that
      * matches with provided house's index
-     * @param houses list of auction houses
-     * @param index house's index
+     * @param houses list of auction houses of type List<AuctionHouse>
+     * @param index house's index of type int
      * @return house if house is available
      */
     private AuctionHouse findHouse(List<AuctionHouse> houses, int index){
@@ -94,7 +94,6 @@ public class Client implements  Runnable{
         System.err.println("House not found");
         return null;
     }
-
 
     /**
      * Wait for auction houses to be available
@@ -115,13 +114,12 @@ public class Client implements  Runnable{
                     InterruptedException|
                     ClassNotFoundException sie){}
         }
-
     }
 
     /**
      * Safely handles socket connections, tries again on failure
-     * @param ip IP number
-     * @param port port number
+     * @param ip IP number of type String
+     * @param port port number of type port
      * @return socket if success
      */
     private Socket safeConnect(String ip,int port)throws IOException{
@@ -144,10 +142,9 @@ public class Client implements  Runnable{
         return  null;
     }
 
-
     /**
      * Validates whether the agents should await for more Auction houses
-     * @param sc scanner
+     * @param sc of type Scanner
      */
     private void validDateAgentAwait(Scanner sc){
         String confirm;
@@ -173,7 +170,6 @@ public class Client implements  Runnable{
         }
     }
 
-
     /**
      * Refresh (create new) connection
      */
@@ -193,12 +189,10 @@ public class Client implements  Runnable{
         }catch (Exception e){e.printStackTrace();}
     }
 
-
-
     /**
      * Validates agents choice in choosing an available auction house
-     * @param agent agent
-     * @param sc scanner
+     * @param agent of type Agent
+     * @param sc of type Scanner
      * @return index
      */
     private int validateAgentAuctionHouseChoice(Agent agent,Scanner sc) {
@@ -227,10 +221,9 @@ public class Client implements  Runnable{
 
     }
 
-
     /**
      * Main method gets bank's IP address
-     * @param args argument
+     * @param args argument of type String[]
      */
     public static void main(String[] args)throws Exception {
         Scanner scan = new Scanner(System.in);

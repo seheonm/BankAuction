@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package Agent;
 
 import java.io.Serializable;
@@ -24,6 +25,7 @@ public class Bid  implements Serializable {
     public int getAgentID() {
         return agentID;
     }
+
 
     /**
      * Get amount

@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package Agent;
 
 import AH.AuctionHouse;
@@ -18,32 +19,31 @@ public class Agent implements Serializable {
     private int accountNumber;
 
     /**
-     * Sets account number.
-     * @param accountNumber the account number
+     * Sets the account number.
+     * @param accountNumber of type int
      */
     public void setAccountNumber(int accountNumber) {
         this.accountNumber = accountNumber;
     }
 
     /**
-     * Gets account number.
+     * Gets the account number.
      * @return the account number
      */
     public int getAccountNumber() {
         return accountNumber;
     }
 
-
     /**
-     * Sets available houses.
-     * @param availableHouses the available houses
+     * Sets the available houses.
+     * @param availableHouses of type List<AuctionHouse>
      */
     public void setAvailableHouses(List<AuctionHouse> availableHouses) {
         this.availableHouses = availableHouses;
     }
 
     /**
-     * Gets available houses.
+     * Gets the available houses.
      * @return the available houses
      */
     public List<AuctionHouse> getAvailableHouses() {

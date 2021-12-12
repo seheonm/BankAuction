@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package AH;
 
 import Agent.Agent;
@@ -23,8 +24,6 @@ public class AgentClient implements Runnable {
     private List<Item> items;
     private final Agent agent;
 
-
-
     public AgentClient(Agent agent,
                        Socket socket,
                        ObjectOutputStream  auctionOut,
@@ -39,7 +38,6 @@ public class AgentClient implements Runnable {
         this.agent = agent;
         setItems();
     }
-
 
     @Override
     public void run() {
@@ -84,10 +82,10 @@ public class AgentClient implements Runnable {
 
     /**
      * Validate input
-     * @param sc scanner
-     * @param size size
-     * @param prompt prompt
-     * @param reply reply message
+     * @param sc of type Scanner
+     * @param size of type int
+     * @param prompt of type String
+     * @param reply reply message of type String
      * @return index
      */
     private int validateInput(Scanner sc,int size,
@@ -125,7 +123,6 @@ public class AgentClient implements Runnable {
      * Bid
      */
     public void bid(){
-        System.out.println("Here Boiiiiiiiiiiii");
         try {
             //print the stuff
             System.out.print("Name  ");

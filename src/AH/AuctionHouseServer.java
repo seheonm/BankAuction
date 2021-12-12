@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package AH;
 
 import Messages.AuctionHouseMessage;
@@ -26,7 +27,6 @@ public class AuctionHouseServer {
     private final int port = 55555;
     private final String IP;
 
-
     /**
      * AuctionHouseServer constructor create the Auction House Server
      */
@@ -46,8 +46,8 @@ public class AuctionHouseServer {
 
     /**
      * Safely handles socket connections, tries again on failure
-     * @param ip ip number
-     * @param port port number
+     * @param ip ip number of type String
+     * @param port port number of type int
      * @return socket
      */
     private Socket safeConnect(String ip,int port)throws IOException{

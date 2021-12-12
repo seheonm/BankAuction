@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package AH;
 
 import Agent.Bid;
@@ -23,8 +24,6 @@ public class AuctionClient implements Runnable {
     private final ObjectInputStream bankIn;
     private final AuctionHouse AH;
     private int bankNum;
-
-
 
     public AuctionClient(Socket c_sock,
                          ObjectOutputStream agentOut,
@@ -58,7 +57,7 @@ public class AuctionClient implements Runnable {
 
     /**
      * Win the bid
-     * @param item item
+     * @param item of type Item
      */
     public void winBid(Item item) {
         System.out.println("call to win bid");
@@ -80,11 +79,10 @@ public class AuctionClient implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
-     * runs thread
+     * Runs the thread
      */
     @Override
     public void run() {

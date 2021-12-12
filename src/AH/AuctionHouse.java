@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package AH;
 import Messages.BidMessage;
 import java.io.*;
@@ -21,9 +22,6 @@ public class AuctionHouse implements  Serializable{
     private final double BID_OFFSET = 1000;
 
     //List of states of each agent item
-
-
-
 
     /**
      * Constructor initializing an Auction House.
@@ -104,7 +102,7 @@ public class AuctionHouse implements  Serializable{
 
     /**
      * Set auction ID
-     * @param auctionID action house ID
+     * @param auctionID action house ID of type int
      */
     public void setAuctionID(int auctionID) {
         this.auctionID = auctionID;
@@ -152,10 +150,9 @@ public class AuctionHouse implements  Serializable{
         return false;
     }
 
-
     /**
      * loadItems reads in the items from items.txt file.
-     * @param file file of items
+     * @param file file of items of type String
      */
     private void loadItems(String file){
 //        try {
@@ -211,21 +208,6 @@ public class AuctionHouse implements  Serializable{
     }
 
     /**
-     * Remove items
-     * @param currItemId item id
-     */
-    public void removeItems(int currItemId){
-        items.removeIf(e-> e.getItemID()== currItemId);
-    }
-
-    /**
-     * @return If the auction house is alive or not;
-     */
-    public boolean isAlive(){
-        return alive;
-    }
-
-    /**
      * Picking random items from the items to sell list.
      */
     public void generateItem(){
@@ -233,15 +215,5 @@ public class AuctionHouse implements  Serializable{
         Item i = items.get(ran.nextInt(items.size()));
         itemsToSell.add(new Item(i.getName(), i.getMinBid(),
                 i.getDescription(), currItemId++, auctionID));
-    }
-
-    /**
-     * printItems prints the items.
-     */
-    public void printItems(){
-        for(Item i: itemsToSell){
-            System.out.println(i.getName() + ", " +
-                    i.getPrice() + ", " + i.getDescription());
-        }
     }
 }

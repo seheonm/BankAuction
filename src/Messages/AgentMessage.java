@@ -2,6 +2,9 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
+/* Agent Message */
+
 package Messages;
 
 import Agent.Agent;
@@ -21,29 +24,34 @@ public class AgentMessage extends Message implements Serializable {
         this.reply = reply;
     }
 
+    /**
+     * The agent message
+     * @param action of type AgentActions
+     */
     public AgentMessage(AgentActions action){
         super(action);
     }
 
-    public AgentMessage(AgentActions action, Agent agent){
-        super(action);
-        this.agent = agent;
-    }
-
-    public AgentMessage(AgentActions action, Agent agent, Bid bid){
-        super(action);
-        this.agent = agent;
-        this.bid = bid;
-    }
-
+    /**
+     * Gets the reply
+     * @return reply
+     */
     public String getReply() {
         return reply;
     }
 
+    /**
+     * Gets the agent
+     * @return agent
+     */
     public Agent getAgent() {
         return agent;
     }
 
+    /**
+     * Gets the bid
+     * @return bid
+     */
     public Bid getBid() {
         return bid;
     }

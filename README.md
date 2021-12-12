@@ -7,3 +7,6 @@ We all met frequently to help each other with code and to run and test.
 
 Functionality:
 
+Extra Credit:
+Extra features.
+

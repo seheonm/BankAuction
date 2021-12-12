@@ -2,6 +2,7 @@
  * CS351L Project 5: Auction House
  * by: Ruby Ta, Marina Seheon, Joseph Barela
  */
+
 package AH;
 
 import java.io.Serializable;
@@ -21,8 +22,8 @@ public class Item implements Serializable {
 
     /**
      * Item to be created from qualifying information.
-     * @param name name of item.
-     * @param description description of item.
+     * @param name name of item of tyoe String
+     * @param description description of item of type String
      */
     public Item(String name, double price,
                 String description, int itemID, int houseId){
@@ -37,28 +38,46 @@ public class Item implements Serializable {
         this.won = false;
     }
 
+    /**
+     * If won
+     * @return won
+     */
     public boolean isWon() {
         return won;
     }
 
+    /**
+     * Sets the win
+     * @param won of type boolean
+     */
     public void setWon(boolean won) {
         this.won = won;
     }
 
+    /**
+     * Gets the item count
+     * @return itemCount
+     */
     public int getItemCount() {
         return itemCount;
     }
 
+    /**
+     * Increments
+     */
     public void increment(){
         itemCount++;
     }
 
+    /**
+     * Resets the timer
+     */
     public void resetTimer(){
         this.itemCount = 0;
     }
 
     /**
-     * gets description
+     * Gets description
      * @return description
      */
     public String getDescription() {
@@ -66,7 +85,7 @@ public class Item implements Serializable {
     }
 
     /**
-     * gets name
+     * Gets name
      * @return name
      */
     public String getName() {
@@ -77,7 +96,9 @@ public class Item implements Serializable {
      * getMinBid gets minBid
      * @return minBid
      */
-    public double getMinBid(){return minBid;}
+    public double getMinBid(){
+        return minBid;
+    }
 
     /**
      * getCurrBid gets currBid
@@ -95,7 +116,7 @@ public class Item implements Serializable {
 
     /**
      * setCurrBid sets the currBid
-     * @param currBid current Bid
+     * @param currBid current Bid of type double
      */
     public void setCurrBid(double currBid){
         this.currBid = currBid;
@@ -107,13 +128,5 @@ public class Item implements Serializable {
      */
     public int getItemID() {
         return itemID;
-    }
-
-    /**
-     * getPrice gets the price.
-     * @return price
-     */
-    public double getPrice() {
-        return price;
     }
 }
