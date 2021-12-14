@@ -127,6 +127,7 @@ public class Client implements  Runnable{
         boolean connected = false;
         while(!connected) {
             try{
+
                 s = new Socket(ip, port);
                 connected = true;
                 System.out.println("Connection successful");
@@ -149,6 +150,7 @@ public class Client implements  Runnable{
     private void validDateAgentAwait(Scanner sc){
         String confirm;
         while(true){
+
             System.out.println("There are currently " +
                     agent.getAvailableHouses().size()
                     +" Auction Houses available\nDo you want to wait for " +

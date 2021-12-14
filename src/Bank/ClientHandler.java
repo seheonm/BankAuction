@@ -67,7 +67,7 @@ public class ClientHandler implements Runnable {
                                     "Account Confirmed " +
                                             "You have ID of " +
                                             account.getAcctNum() +
-                                            "  with initial balance of " +
+                                            "  with initial balance of $" +
                                             account.getBal() + " and name of "
                                             + account.getName());
                             out.writeUnshared(reply);

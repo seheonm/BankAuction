@@ -190,21 +190,12 @@ public class AuctionHouse implements  Serializable{
 "2000GT,1000000,1967 Toyota 2000GT 2.0-liter 150-hp six from Yamaha",
 "Skyline,145000,1999 Nissan Skyline GT-R (R34) all wheel drive runs 0-100 in 4.4 seconds"};
 
-//            String line;
-
-            // Read in the items
-//            while ((line = bReader.readLine()) != null) {
             for (String line : input) {
                 String[] x = line.split(",");
                 Item item = new Item(x[0],
                         Integer.parseInt(x[1]), x[2], 0, 0);
                 items.add(item);
             }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**

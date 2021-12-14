@@ -60,8 +60,11 @@ public class AHUser {
         this.agent = agent;
         this.auctionHouseID = auctionHouseId;
         System.out.println("Connecting to Auction House Server");
+
+        System.out.println("Trying to connect tooo: " + ip + ":" + port);
         Socket sock;
         try {
+            System.out.println("Trying to connect to: " + ip + ":" + port);
             sock = new Socket(ip, port);
             auctionOut = new ObjectOutputStream(sock.getOutputStream());
             auctionIn = new ObjectInputStream(sock.getInputStream());
@@ -170,16 +173,24 @@ public class AHUser {
                         agent.getAvailableHouses().size()
                         + " Auction Houses available\nDo you want you wait " +
                         "for more Auction Houses to join? (yes/no)");
+
                 confirm = sc.nextLine();
                 if (confirm.equals("no")) break;
+
             }
             try {
+
                 Thread.sleep(1000);
+
                 AgentMessage updateHouses = new AgentMessage
                         (AGENT_UPDATE_AUCTION, agent, "");
+
                 bankOut.writeUnshared(updateHouses);
+
                 BankMessage update = (BankMessage) bankIn.readUnshared();
+
                 agent.setAvailableHouses(update.getHouses());
+
             } catch (IOException |
                     InterruptedException |
                     ClassNotFoundException sie) {

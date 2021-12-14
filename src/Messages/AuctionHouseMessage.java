@@ -20,28 +20,13 @@ public class AuctionHouseMessage extends Message implements Serializable {
     private int agentID;
     private Bid bid;
     private String reply;
-    public AuctionHouseMessage(AuctionHouseActions actions, int agentID,
-                               int auctionHouseID,String reply) {
-        super(actions);
-        this.auctionHouseID = auctionHouseID;
-        this.agentID= agentID;
-        this.reply = reply;
-    }
 
-    public AuctionHouseMessage(AuctionHouseActions actions, String reply, int aID) {
-        super(actions);
-        this.reply = reply;
-        this.agentID = aID;
-    }
-
-    public AuctionHouseMessage(int aID, int aHID){
-        this.agentID = aID;
-        this.auctionHouseID = aHID;
-    }
-    public AuctionHouseMessage(AuctionHouseActions actions, AuctionHouse auctionHouse) {
-        super(actions);
-        this.house = auctionHouse;
-    }
+    /**
+     * Auction House Message
+     * @param actions of type AuctionHouseActions
+     * @param house of type AuctionHouse
+     * @param reply of type String
+     */
     public AuctionHouseMessage(AuctionHouseActions actions, AuctionHouse house,String reply) {
         super(actions);
         this.house = house;

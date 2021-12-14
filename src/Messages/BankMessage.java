@@ -22,6 +22,13 @@ public class BankMessage<Bid> extends Message implements Serializable{
     private Bid bid;
 
     //bid
+
+    /**
+     * Bank Message
+     * @param action of type BankActions
+     * @param bid of type Bid
+     * @param reply of type String
+     */
     public BankMessage(BankActions action, Bid bid, String reply){
         this.action = action;
         this.bid = bid;

@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-<<<<<<< HEAD
-Main-Class: AH.AuctionHouseServer
-=======
-Main-Class: Agent.Client
->>>>>>> 4acb40a4b249c1470af80e703289b820a2f028c1
-
