@@ -30,4 +30,4 @@ Bugs:
 No bugs.
 
 Extra Credit:
-Nice and organized.
+Clean and organized.
